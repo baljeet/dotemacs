@@ -11,6 +11,9 @@
 (add-to-list 'package-archives '("elpa" . "https://elpa.gnu.org/packages/")  t)
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 (when (member "Source Code Pro" (font-family-list)) (set-frame-font "Source Code Pro-16" t t))
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -25,7 +28,7 @@
  '(helm-truncate-lines t)
  '(package-selected-packages
    (quote
-    (go-mode flycheck company-lsp lsp-ui lsp-mode rjsx-mode emmet-mode magit neotree web-mode yasnippet-snippets vue-mode vue-html-mode mmm-mode company-tern xref-js2 js2-refactor js2-mode helm-projectile projectile doom-modeline doom-themes color-theme-solarized cherry-blossom-theme berrys-theme whole-line-or-region smartparens use-package idle-org-agenda counsel-org-clock counsel-org-capture-string org-protocol-jekyll orgnav orca org-drill org-pomodoro org-clock-today org-brain org-bullets org-plus-contrib)))
+    (exec-path-from-shell all-the-icons-dired go-mode flycheck company-lsp lsp-ui lsp-mode rjsx-mode emmet-mode magit neotree web-mode yasnippet-snippets vue-mode vue-html-mode mmm-mode company-tern xref-js2 js2-refactor js2-mode helm-projectile projectile doom-modeline doom-themes color-theme-solarized cherry-blossom-theme berrys-theme whole-line-or-region smartparens use-package idle-org-agenda counsel-org-clock counsel-org-capture-string org-protocol-jekyll orgnav orca org-drill org-pomodoro org-clock-today org-brain org-bullets org-plus-contrib)))
  '(projectile-completion-system (quote helm))
  '(tool-bar-mode nil))
 (require 'helm-config)
