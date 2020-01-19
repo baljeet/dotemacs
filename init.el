@@ -135,6 +135,7 @@
 
 (require 'rjsx-mode)
 (add-to-list 'auto-mode-alist '("\\.vue\\'" . rjsx-mode))
+(add-to-list 'auto-mode-alist '("\\.svelte\\" . rjsx-mode))
 
 (setq lsp-gopls-staticcheck t)
 (setq lsp-eldoc-render-all t)
