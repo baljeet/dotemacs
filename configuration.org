@@ -1,0 +1,213 @@
+#+TITLE: Emacs Configuration
+#+AUTHOR: Baljeet Kumar
+#+EMAIL: promragger@outlook.com
+
+* Configure =use-package=
+
+Use =use-package= to install and configure the packages. This is included in the =init.el= file.
+
+=use-package= should install the package if it is not available. This means I will be able to open
+a fully functional emacs instance whenever i open it on a new machine.
+
+#+begin_src emacs-lisp
+(require 'use-package-ensure)
+(setq use-package-always-ensure t)
+#+end_src
+
+Always compile packages, and use the newest version available. (Copied)
+
+#+begin_src emacs-lisp
+(use-package auto-compile
+:config (auto-compile-on-load-mode))
+
+(setq load-prefer-newer t)
+#+end_src
+
+* Use sensible-defaults
+Use [[https://github.com/hrs/sensible-defaults.el][sensible-defaults]] for basic settings
+
+#+begin_src emacs-lisp
+(load-file "~/.emacs.d/sensible-defaults.el")
+(sensible-defaults/use-all-settings)
+(sensible-defaults/use-all-keybindings)
+(sensible-defaults/backup-to-temp-directory)
+#+end_src
+
+* UI preferences
+** Configure menu, tool and scrollbar
+#+begin_src emacs-lisp
+(tool-bar-mode 0)
+(menu-bar-mode 0)
+(scroll-bar-mode -1)
+#+end_src
+
+Disable scroll bar in miinibuffer as well (copied)
+#+begin_src emacs-lisp
+(set-window-scroll-bars (minibuffer-window) nil nil)
+#+end_src
+** Use fancy lambda
+#+begin_src emacs-lisp
+(global-prettify-symbols-mode t)
+#+end_src
+** Use doom themes
+#+begin_src emacs-lisp
+(use-package doom-themes
+:config
+((load-theme 'doom-one t)
+(doom-themes-visual-bell-config)
+(doom-themes-org-config)))
+#+end_src
+** Use doom-modeline
+Configuring doom-modeline and enabling time mode and battery mode
+#+begin_src emacs-lisp
+(use-package doom-modeline
+:ensure t
+:config
+((setq doom-modeline-height 40)
+(setq doom-modeline-bar-width 3)
+(setq doom-modeline-project-detection 'project)
+(setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
+(setq doom-modeline-icon (display-graphic-p))
+(setq doom-modeline-major-mode-icon t)
+(setq doom-modeline-major-mode-color-icon t)
+(setq doom-modeline-buffer-state-icon t)
+(setq doom-modeline-buffer-modification-icon t)
+(setq doom-modeline-unicode-fallback nil)
+(setq doom-modeline-minor-modes t)
+(setq doom-modeline-enable-word-count t)
+(display-time-mode t)
+(display-battery-mode t))
+:hook (after-init . doom-modeline-mode)
+)
+#+end_src
+* Configure Smartparens
+#+begin_src emacs-lisp
+(use-package smartparens-config
+:ensure t
+:config
+((smartparens-global-mode t)
+(show-smartparens-global-mode))
+)
+#+end_src
+* Projectile and helm projectile
+#+begin_src emacs-lisp
+(use-package helm-config
+:ensure t)
+
+(use-package projectile
+:ensure t
+:config
+(projectile-global-mode t)
+)
+
+(use-package helm-projectile
+:ensure t
+:config 
+(
+(customize-set-variable 'projectile-completion-system 'helm)
+(helm-projectile-on)
+(customize-set-variable 'helm-truncate-lines t))
+)
+#+end_src
+* IDO configuration
+#+begin_src emacs-lisp
+(use-package ido-vertical-mode
+:ensure t
+)
+(ido-mode t)
+(ido-everywhere t)
+(setq ido-enable-flex-matching t)
+(ido-vertical-mode 1)
+(setq ido-vertical-define-keys 'C-n-and-C-p-only)
+(setq ido-vertical-show-count t)
+#+end_src
+* Org mode
+#+begin_src emacs-lisp
+(use-package orgnav
+:ensure t
+)
+(use-package orca
+:ensure t
+)
+(use-package org-drill
+:ensure t
+)
+(use-package org-pomodoro
+:ensure t
+)
+(use-package org-clock-today
+:ensure t
+)
+(use-package org-brain
+:ensure t
+)
+(use-package org-plus-contrib
+:ensure t
+)
+(use-package counsel-org-clock
+:ensure t)
+(use-package counsel-org-capture-string
+:ensure t)
+(use-package org-bullets
+:ensure t
+:config
+(
+(add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
+)
+)
+
+(use-package idle-org-agenda
+:after org-agenda
+:ensure t
+:config (idle-org-agenda-mode))
+
+#+end_src
+* Change window splitting
+#+begin_src emacs-lisp
+(defun vsplit-last-buffer ()
+  (interactive)
+  (split-window-vertically)
+  (other-window 1 nil)
+  (switch-to-next-buffer)
+  )
+(defun hsplit-last-buffer ()
+  (interactive)
+  (split-window-horizontally)
+  (other-window 1 nil)
+  (switch-to-next-buffer)
+  )
+ 
+(global-set-key (kbd "C-x 2") 'vsplit-last-buffer)
+(global-set-key (kbd "C-x 3") 'hsplit-last-buffer)
+
+#+end_src
+* Exec path from shell
+#+begin_src emacs-lisp
+(when (memq window-system '(mac ns x))
+(use-package exec-path-from-shell
+:config (exec-path-from-shell-initialize)
+))
+#+end_src
+* Misc
+** Enable xwidget so that we can browse web from emacs
+#+begin_src emacs-lisp
+(setq xwidget-webkit-enable-plugins t)
+#+end_src
+** Apropos by score
+#+begin_src emacs-lisp
+(setq apropos-sort-by-scores t)
+#+end_src
+** Dabbrev
+#+begin_src emacs-lisp
+(global-set-key [remap dabbrev-expand] 'hippie-expand)
+#+end_src
+** iMenu
+#+begin_src emacs-lisp
+(global-set-key (kbd "M-i") 'imenu)
+#+end_src
+** Windmove
+#+begin_src emacs-lisp
+(windmove-default-keybindings)
+#+end_src
+
+
