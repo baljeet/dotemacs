@@ -123,7 +123,7 @@ Configuring doom-modeline and enabling time mode and battery mode
 (setq ido-vertical-show-count t)
 #+end_src
 * Org mode
-Saw this [https://github.com/jwiegley/use-package/issues/597]
+Saw this [[https://github.com/jwiegley/use-package/issues/597]]
 #+begin_src emacs-lisp
 (use-package org
 :ensure org-plus-contrib)
