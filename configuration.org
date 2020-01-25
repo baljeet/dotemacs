@@ -52,18 +52,19 @@ Disable scroll bar in miinibuffer as well (copied)
 ** Use doom themes
 #+begin_src emacs-lisp
 (use-package doom-themes
-:config
-((load-theme 'doom-one t)
+:ensure t
+)
+(load-theme 'doom-one t)
 (doom-themes-visual-bell-config)
-(doom-themes-org-config)))
+(doom-themes-org-config)
 #+end_src
 ** Use doom-modeline
 Configuring doom-modeline and enabling time mode and battery mode
 #+begin_src emacs-lisp
 (use-package doom-modeline
 :ensure t
-:config
-((setq doom-modeline-height 40)
+:hook (after-init . doom-modeline-mode))
+(setq doom-modeline-height 40)
 (setq doom-modeline-bar-width 3)
 (setq doom-modeline-project-detection 'project)
 (setq doom-modeline-buffer-file-name-style 'truncate-upto-project)
@@ -76,23 +77,26 @@ Configuring doom-modeline and enabling time mode and battery mode
 (setq doom-modeline-minor-modes t)
 (setq doom-modeline-enable-word-count t)
 (display-time-mode t)
-(display-battery-mode t))
-:hook (after-init . doom-modeline-mode)
-)
+(display-battery-mode t)
 #+end_src
 * Configure Smartparens
 #+begin_src emacs-lisp
-(use-package smartparens-config
+(use-package smartparens
 :ensure t
 :config
-((smartparens-global-mode t)
-(show-smartparens-global-mode))
-)
+(setq sp-show-pair-from-inside nil)
+(require 'smartparens-config)
+(smartparens-global-mode t)
+(show-smartparens-global-mode)
+:diminish smartparens-mode)
 #+end_src
 * Projectile and helm projectile
 #+begin_src emacs-lisp
-(use-package helm-config
-:ensure t)
+(use-package helm
+:ensure t
+:config
+(require 'helm-config)
+)
 
 (use-package projectile
 :ensure t
@@ -101,13 +105,10 @@ Configuring doom-modeline and enabling time mode and battery mode
 )
 
 (use-package helm-projectile
-:ensure t
-:config 
-(
+:ensure t)
 (customize-set-variable 'projectile-completion-system 'helm)
 (helm-projectile-on)
-(customize-set-variable 'helm-truncate-lines t))
-)
+(customize-set-variable 'helm-truncate-lines t)
 #+end_src
 * IDO configuration
 #+begin_src emacs-lisp
@@ -122,7 +123,10 @@ Configuring doom-modeline and enabling time mode and battery mode
 (setq ido-vertical-show-count t)
 #+end_src
 * Org mode
+Saw this [https://github.com/jwiegley/use-package/issues/597]
 #+begin_src emacs-lisp
+(use-package org
+:ensure org-plus-contrib)
 (use-package orgnav
 :ensure t
 )
@@ -141,21 +145,14 @@ Configuring doom-modeline and enabling time mode and battery mode
 (use-package org-brain
 :ensure t
 )
-(use-package org-plus-contrib
-:ensure t
-)
 (use-package counsel-org-clock
 :ensure t)
 (use-package counsel-org-capture-string
 :ensure t)
 (use-package org-bullets
 :ensure t
-:config
-(
+)
 (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1)))
-)
-)
-
 (use-package idle-org-agenda
 :after org-agenda
 :ensure t
@@ -176,7 +173,7 @@ Configuring doom-modeline and enabling time mode and battery mode
   (other-window 1 nil)
   (switch-to-next-buffer)
   )
- 
+
 (global-set-key (kbd "C-x 2") 'vsplit-last-buffer)
 (global-set-key (kbd "C-x 3") 'hsplit-last-buffer)
 
@@ -209,5 +206,3 @@ Configuring doom-modeline and enabling time mode and battery mode
 #+begin_src emacs-lisp
 (windmove-default-keybindings)
 #+end_src
-
-
